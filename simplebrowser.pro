@@ -12,7 +12,8 @@ HEADERS += \
     webpage.h \
     webpopupwindow.h \
     webview.h \
-    focusmanager.h
+    focusmanager.h \
+    avl.h
 
 SOURCES += \
     browser.cpp \
@@ -24,7 +25,10 @@ SOURCES += \
     webpage.cpp \
     webpopupwindow.cpp \
     webview.cpp \
-    focusmanager.cpp
+    focusmanager.cpp \
+    avl.cpp \
+    avl.tpp
+
 
 FORMS += \
     certificateerrordialog.ui \

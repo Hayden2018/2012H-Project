@@ -114,7 +114,8 @@ private:
     QLineEdit *m_urlLineEdit;
     QAction *m_favAction;
     QString m_lastSearch;
-    FocusManager *m_focusManager;
+
+    Focusmanager *m_focusManager;
 
 };
 

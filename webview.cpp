@@ -62,7 +62,10 @@
 
 WebView::WebView(QWidget *parent)
     : QWebEngineView(parent)
+<<<<<<< HEAD
+=======
     , urlJustChanged(true)
+>>>>>>> 2ae234241754e9030e6deff2c8a6bdac1dfe79d6
     , m_loadProgress(100)
 {
     connect(this, &QWebEngineView::loadStarted, [this]() {

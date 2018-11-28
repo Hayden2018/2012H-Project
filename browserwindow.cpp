@@ -79,7 +79,11 @@ BrowserWindow::BrowserWindow(Browser *browser, QWebEngineProfile *profile, bool 
     , m_stopReloadAction(nullptr)
     , m_urlLineEdit(nullptr)
     , m_favAction(nullptr)
+<<<<<<< HEAD
+    , m_focusManager(new Focusmanager(m_urlLineEdit))
+=======
     , m_focusManager(new FocusManager())
+>>>>>>> 2ae234241754e9030e6deff2c8a6bdac1dfe79d6
 {
     setAttribute(Qt::WA_DeleteOnClose, true);
     setFocusPolicy(Qt::ClickFocus);
@@ -121,17 +125,18 @@ BrowserWindow::BrowserWindow(Browser *browser, QWebEngineProfile *profile, bool 
         });
         connect(m_tabWidget, &TabWidget::loadProgress, this, &BrowserWindow::handleWebViewLoadProgress);
         connect(m_tabWidget, &TabWidget::webActionEnabledChanged, this, &BrowserWindow::handleWebActionEnabledChanged);
-//        connect(m_tabWidget, &TabWidget::urlChanged, [this](const QUrl &url) {
-//            m_urlLineEdit->setText(url.toDisplayString());
-//        });
-        connect(m_tabWidget, &TabWidget::urlChanged, this, &BrowserWindow::handleClickAccess);
+
+        connect(m_tabWidget, &TabWidget::urlChanged, [this](const QUrl &url) {
+            m_urlLineEdit->setText(url.toDisplayString());
+        });
         connect(m_tabWidget, &TabWidget::favIconChanged, m_favAction, &QAction::setIcon);
         connect(m_tabWidget, &TabWidget::devToolsRequested, this, &BrowserWindow::handleDevToolsRequested);
-        connect(m_urlLineEdit, &QLineEdit::returnPressed, this, &BrowserWindow::handleTypeAccess);
-        connect(m_urlLineEdit, &QLineEdit::editingFinished, this, &BrowserWindow::resetUrlEdit);
-        connect(m_focusManager, &FocusManager::pass, [this]() {
+        connect(m_urlLineEdit, &QLineEdit::returnPressed, m_focusManager, &Focusmanager::handleAccessRequest);
+        connect(m_focusManager, &Focusmanager::stop, this, &BrowserWindow::resetUrlEdit);
+        connect(m_focusManager, &Focusmanager::pass, [this]() {
                     m_tabWidget->setUrl(QUrl::fromUserInput(m_urlLineEdit->text()));
-        });
+                   });
+
 
         QAction *focusUrlLineEditAction = new QAction(this);
         addAction(focusUrlLineEditAction);
@@ -534,6 +539,8 @@ void BrowserWindow::resetUrlEdit(){
     QUrl url = currentTab()->url();
     m_urlLineEdit->setText(url.toEncoded());
 }
+<<<<<<< HEAD
+=======
 
 void BrowserWindow::handleClickAccess(){
     m_focusManager->handleClickAccess(m_urlLineEdit, currentTab());
@@ -542,3 +549,4 @@ void BrowserWindow::handleClickAccess(){
 void BrowserWindow::handleTypeAccess(){
     m_focusManager->handleTypeAccess(m_urlLineEdit);
 }
+>>>>>>> 2ae234241754e9030e6deff2c8a6bdac1dfe79d6
