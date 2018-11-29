@@ -33,13 +33,11 @@ void FocusManager::handleClickAccess(QLineEdit* edit, WebView* tab){
         tab->is_new = false;
     }
     else{
-        tab->back();
-        if(tab->is_new){
-            tab->deleteLater();
-        }
         QMessageBox::information(nullptr, "Calm Down", "You are about to get distracted, Stay Focus!");
+        if(tab->is_new)
+            tab->deleteLater();
+        tab->back();
     }
-
 }
 
 
