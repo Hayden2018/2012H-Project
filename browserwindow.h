@@ -56,6 +56,7 @@
 #include <QWebEnginePage>
 #include "focusmanager.h"
 #include "EditWindow.h"
+#include "LoginWindow.h"
 
 QT_BEGIN_NAMESPACE
 class QLineEdit;
@@ -92,7 +93,10 @@ private slots:
     void handleDevToolsRequested(QWebEnginePage *source);
     void handleClickAccess();
     void handleTypeAccess();
-    void handleEditWindow();
+    void handleEditWindow();    //show login window here
+
+    void showEditWindow();      //show editWindow here
+    void showLoginFailMessage();//show login fail message and you can set limit of trying here too
 
 private:
     QMenu *createFileMenu(TabWidget *tabWidget);
@@ -118,7 +122,7 @@ private:
     QString m_lastSearch;
     FocusManager *m_focusManager;
     EditWindow *m_editWindow;
-
+    LoginWindow *m_login;
 };
 
 #endif // BROWSERWINDOW_H

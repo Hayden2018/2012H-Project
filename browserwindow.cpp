@@ -81,6 +81,7 @@ BrowserWindow::BrowserWindow(Browser *browser, QWebEngineProfile *profile, bool 
     , m_favAction(nullptr)
     , m_focusManager(&fm())
     , m_editWindow(new EditWindow)
+    , m_login(nullptr)
 {
     setAttribute(Qt::WA_DeleteOnClose, true);
     setFocusPolicy(Qt::ClickFocus);
@@ -132,6 +133,7 @@ BrowserWindow::BrowserWindow(Browser *browser, QWebEngineProfile *profile, bool 
                     m_tabWidget->currentWebView()->is_new = false;
         });
         connect(m_editWindow, &EditWindow::refocus, m_tabWidget, &TabWidget::refocusAllTabs);
+
 
         QAction *focusUrlLineEditAction = new QAction(this);
         addAction(focusUrlLineEditAction);
@@ -548,5 +550,27 @@ void BrowserWindow::handleTypeAccess(){
 }
 
 void BrowserWindow::handleEditWindow(){
-    m_editWindow->show();
+    if(m_login == nullptr){
+        m_login = new LoginWindow;
+        //For login checking
+        connect(m_login, &LoginWindow::loginSuccess, this, &BrowserWindow::showEditWindow);
+        connect(m_login, &LoginWindow::loginFail, this, &BrowserWindow::showLoginFailMessage);
+    }
+    m_login->show();
+}
+
+void BrowserWindow::showEditWindow(){
+    if(m_login != nullptr){
+        m_login->deleteLater();
+        m_login = nullptr;
+        m_editWindow->show();
+    }
+}
+
+void BrowserWindow::showLoginFailMessage(){
+    if(m_login != nullptr){
+        m_login->deleteLater();
+        m_login = nullptr;
+        QMessageBox::information(nullptr, "Login Fails!", "Don't try to guess the password!");
+    }
 }

@@ -14,7 +14,8 @@ HEADERS += \
     webview.h \
     focusmanager.h \
     avl.h \
-    EditWindow.h
+    EditWindow.h \
+    LoginWindow.h
 
 SOURCES += \
     browser.cpp \
@@ -28,14 +29,16 @@ SOURCES += \
     webview.cpp \
     focusmanager.cpp \
     avl.cpp \
-    EditWindow.cpp
+    EditWindow.cpp \
+    LoginWindow.cpp
 
 FORMS += \
     certificateerrordialog.ui \
     passworddialog.ui \
     downloadmanagerwidget.ui \
     downloadwidget.ui \
-    EditWindow.ui
+    EditWindow.ui \
+    LoginWindow.ui
 
 RESOURCES += data/simplebrowser.qrc
 
