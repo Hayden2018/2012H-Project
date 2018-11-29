@@ -15,10 +15,12 @@ class EditWindow : public QWidget
 public:
     explicit EditWindow(QWidget *parent = nullptr);
     ~EditWindow();
-    enum heading{
-        QURL
-    };
+    enum heading{ QURL };
     void add(QString url);      //add a new url
+
+signals:
+    void refocus();
+
 private slots:
     void on_pushButton_clicked();
     void on_pushButton_2_clicked();

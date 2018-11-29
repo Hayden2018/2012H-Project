@@ -295,3 +295,9 @@ void TabWidget::reloadTab(int index)
     if (WebView *view = webView(index))
         view->reload();
 }
+
+void TabWidget::refocusAllTabs()
+{
+    for (int i = 0; i < count(); ++i)
+        webView(i)->is_new = true;
+}

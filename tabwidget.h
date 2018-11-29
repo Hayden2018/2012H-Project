@@ -89,6 +89,7 @@ public slots:
     void closeTab(int index);
     void nextTab();
     void previousTab();
+    void refocusAllTabs();
 
 private slots:
     void handleCurrentChanged(int index);
@@ -97,6 +98,7 @@ private slots:
     void closeOtherTabs(int index);
     void reloadAllTabs();
     void reloadTab(int index);
+
 
 private:
     WebView *webView(int index) const;

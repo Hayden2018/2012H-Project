@@ -117,8 +117,7 @@ private:
     QAction *m_favAction;
     QString m_lastSearch;
     FocusManager *m_focusManager;
-    bool justEditedUrl;
-    bool justReturnPressed;
+    EditWindow *m_editWindow;
 
 };
 

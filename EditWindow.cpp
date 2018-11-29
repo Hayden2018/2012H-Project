@@ -91,6 +91,7 @@ void EditWindow::on_pushButton_2_clicked()
         // delete in whitelist
         fm().deleteFromWhitelist(str);
     }
+    emit refocus();
 }
 
 void EditWindow::on_radioButton_clicked()
@@ -99,6 +100,7 @@ void EditWindow::on_radioButton_clicked()
     ui->tableWidget->setEnabled(true);
     ui->pushButton->setEnabled(true);
     ui->pushButton_2->setEnabled(true);
+    emit refocus();
 }
 
 void EditWindow::on_radioButton_2_clicked()

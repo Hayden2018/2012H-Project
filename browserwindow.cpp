@@ -80,6 +80,7 @@ BrowserWindow::BrowserWindow(Browser *browser, QWebEngineProfile *profile, bool 
     , m_urlLineEdit(nullptr)
     , m_favAction(nullptr)
     , m_focusManager(&fm())
+    , m_editWindow(nullptr)
 {
     setAttribute(Qt::WA_DeleteOnClose, true);
     setFocusPolicy(Qt::ClickFocus);
@@ -130,6 +131,7 @@ BrowserWindow::BrowserWindow(Browser *browser, QWebEngineProfile *profile, bool 
                     m_tabWidget->setUrl(QUrl::fromUserInput(m_urlLineEdit->text()));
                     m_tabWidget->currentWebView()->is_new = false;
         });
+        connect(m_editWindow, &EditWindow::refocus, m_tabWidget, &TabWidget::refocusAllTabs);
 
         QAction *focusUrlLineEditAction = new QAction(this);
         addAction(focusUrlLineEditAction);
@@ -532,12 +534,8 @@ void BrowserWindow::handleDevToolsRequested(QWebEnginePage *source)
 }
 
 void BrowserWindow::resetUrlEdit(){
-    //if(justEditedUrl && !justReturnPressed){
-        QUrl url = currentTab()->url();
-        m_urlLineEdit->setText(url.toEncoded());
-    //}
-    justEditedUrl = false;
-    justReturnPressed = false;
+    QUrl url = currentTab()->url();
+    m_urlLineEdit->setText(url.toEncoded());
 
 }
 
@@ -550,6 +548,6 @@ void BrowserWindow::handleTypeAccess(){
 }
 
 void BrowserWindow::handleEditWindow(){
-    EditWindow* edit = new EditWindow;
-    edit->show();
+    m_editWindow = new EditWindow;
+    m_editWindow->show();
 }
