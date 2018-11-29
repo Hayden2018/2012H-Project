@@ -79,7 +79,7 @@ BrowserWindow::BrowserWindow(Browser *browser, QWebEngineProfile *profile, bool 
     , m_stopReloadAction(nullptr)
     , m_urlLineEdit(nullptr)
     , m_favAction(nullptr)
-    , m_focusManager(new FocusManager())
+    , m_focusManager(&fm())
 {
     setAttribute(Qt::WA_DeleteOnClose, true);
     setFocusPolicy(Qt::ClickFocus);

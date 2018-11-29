@@ -64,6 +64,8 @@ FocusManager::FocusManager() :
     whitelist.insert(QUrl("https://www.ust.hk").host());
     whitelist.insert(QUrl("https://www.google.com").host());
 
+    whitelist.remove("");
+
     file.close();
 }
 
@@ -88,7 +90,11 @@ bool FocusManager::isWhitelisted(const QUrl& url) const
 
 void FocusManager::addToWhitelist(const QUrl& url)
 {
-    return whitelist.insert(url.host());
+    if (url.toEncoded() == "")
+        return;
+
+    whitelist.insert(url.host());
+//    whitelist.remove("");
 }
 
 void FocusManager::deleteFromWhitelist(const QUrl& url)
@@ -96,5 +102,9 @@ void FocusManager::deleteFromWhitelist(const QUrl& url)
     return whitelist.remove(url.host());
 }
 
-
+FocusManager& fm()
+{
+    static FocusManager fm;
+    return fm;
+}
 

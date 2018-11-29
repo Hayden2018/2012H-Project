@@ -158,4 +158,3 @@ void AVL<T>::in_order_action(Callable action)
         right_subtree().in_order_action(action);
     }
 }
-

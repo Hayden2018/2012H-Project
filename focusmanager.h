@@ -7,10 +7,12 @@
 #include <QLineEdit>
 #include <QUrl>
 #include <QString>
-#include "avl.cpp"
+#include "avl.h"
 #include "webview.h"
 
 class FocusManager : public QObject {
+
+    friend class EditWindow;
 
      Q_OBJECT
      AVL<QString> whitelist;
@@ -21,6 +23,7 @@ class FocusManager : public QObject {
      void operator=(const FocusManager&);
 
 public:
+
     bool onFocus;
 
     FocusManager();
@@ -34,3 +37,7 @@ public:
 signals:
     void pass();
 };
+
+
+FocusManager& fm();
+
