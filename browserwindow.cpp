@@ -80,7 +80,7 @@ BrowserWindow::BrowserWindow(Browser *browser, QWebEngineProfile *profile, bool 
     , m_urlLineEdit(nullptr)
     , m_favAction(nullptr)
     , m_focusManager(&fm())
-    , m_editWindow(nullptr)
+    , m_editWindow(new EditWindow)
 {
     setAttribute(Qt::WA_DeleteOnClose, true);
     setFocusPolicy(Qt::ClickFocus);
@@ -548,6 +548,5 @@ void BrowserWindow::handleTypeAccess(){
 }
 
 void BrowserWindow::handleEditWindow(){
-    m_editWindow = new EditWindow;
     m_editWindow->show();
 }
