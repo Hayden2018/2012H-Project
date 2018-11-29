@@ -59,7 +59,7 @@ FocusManager::FocusManager() :
     QTextStream in(&file);
 
     while (!in.atEnd())
-        whitelist.insert(QUrl(in.readLine()).host());
+        whitelist.insert(in.readLine());
 
     whitelist.insert(QUrl("https://www.ust.hk").host());
     whitelist.insert(QUrl("https://www.google.com").host());
