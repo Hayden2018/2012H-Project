@@ -6,22 +6,30 @@
 #include <QMessageBox>
 #include <QLineEdit>
 #include <QUrl>
+#include <QString>
+#include "avl.cpp"
 #include "webview.h"
 
 class FocusManager : public QObject {
 
      Q_OBJECT
-     bool isWhiteListed(QUrl url);
-     //Need AVL tree member here
+     AVL<QString> whitelist;
+     const QString recordDirectory;
+     const QString recordPath;
+     bool isWhitelisted(const QUrl& url) const;
+     FocusManager(const FocusManager&);
+     void operator=(const FocusManager&);
 
 public:
     bool onFocus;
-    FocusManager(); //Need to implement read file
-    ~FocusManager(); //Need to implement write file
-    //Need to implement add function
-    //Need to implement remove function
+
+    FocusManager();
+    ~FocusManager();
+    void addToWhitelist(const QUrl& url);
+    void deleteFromWhitelist(const QUrl& url);
     void handleTypeAccess(QLineEdit* edit);
     void handleClickAccess(QLineEdit* edit, WebView* tab);
+    void handleNewTab(QLineEdit* edit, WebView* tab);
 
 signals:
     void pass();

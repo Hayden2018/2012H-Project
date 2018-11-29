@@ -123,10 +123,10 @@ BrowserWindow::BrowserWindow(Browser *browser, QWebEngineProfile *profile, bool 
         connect(m_tabWidget, &TabWidget::webActionEnabledChanged, this, &BrowserWindow::handleWebActionEnabledChanged);
 //        connect(m_tabWidget, &TabWidget::urlChanged, [this](const QUrl &url) {
 //            m_urlLineEdit->setText(url.toDisplayString());
-//        });
-        connect(m_tabWidget, &TabWidget::urlChanged, this, &BrowserWindow::handleClickAccess);
+//        });   
         connect(m_tabWidget, &TabWidget::favIconChanged, m_favAction, &QAction::setIcon);
         connect(m_tabWidget, &TabWidget::devToolsRequested, this, &BrowserWindow::handleDevToolsRequested);
+        connect(m_tabWidget, &TabWidget::urlChanged, this, &BrowserWindow::handleClickAccess);
         connect(m_urlLineEdit, &QLineEdit::returnPressed, this, &BrowserWindow::handleTypeAccess);
         connect(m_urlLineEdit, &QLineEdit::editingFinished, this, &BrowserWindow::resetUrlEdit);
         connect(m_focusManager, &FocusManager::pass, [this]() {
@@ -531,8 +531,13 @@ void BrowserWindow::handleDevToolsRequested(QWebEnginePage *source)
 }
 
 void BrowserWindow::resetUrlEdit(){
-    QUrl url = currentTab()->url();
-    m_urlLineEdit->setText(url.toEncoded());
+    //if(justEditedUrl && !justReturnPressed){
+        QUrl url = currentTab()->url();
+        m_urlLineEdit->setText(url.toEncoded());
+    //}
+    justEditedUrl = false;
+    justReturnPressed = false;
+
 }
 
 void BrowserWindow::handleClickAccess(){

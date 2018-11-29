@@ -74,7 +74,7 @@ int main(int argc, char **argv)
 
     QWebEngineSettings::defaultSettings()->setAttribute(QWebEngineSettings::PluginsEnabled, true);
 
-    QUrl url = QUrl("https://www.ust.hk");
+    QUrl url = QUrl("https://www.google.com");
 
     Browser browser;
     BrowserWindow *window = browser.createWindow();

@@ -89,7 +89,6 @@ private slots:
     void handleWebViewTitleChanged(const QString &title);
     void handleWebActionEnabledChanged(QWebEnginePage::WebAction action, bool enabled);
     void handleDevToolsRequested(QWebEnginePage *source);
-    void resetUrlEdit();
     void handleClickAccess();
     void handleTypeAccess();
 
@@ -100,6 +99,7 @@ private:
     QMenu *createWindowMenu(TabWidget *tabWidget);
     QMenu *createHelpMenu();
     QToolBar *createToolBar();
+    void resetUrlEdit();
 
 private:
     Browser *m_browser;
@@ -115,6 +115,8 @@ private:
     QAction *m_favAction;
     QString m_lastSearch;
     FocusManager *m_focusManager;
+    bool justEditedUrl;
+    bool justReturnPressed;
 
 };
 
