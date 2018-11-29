@@ -62,8 +62,8 @@
 
 WebView::WebView(QWidget *parent)
     : QWebEngineView(parent)
-    , urlJustChanged(true)
-    , m_loadProgress(100)
+    , m_loadProgress(100),
+      is_new(true)
 {
     connect(this, &QWebEngineView::loadStarted, [this]() {
         m_loadProgress = 0;

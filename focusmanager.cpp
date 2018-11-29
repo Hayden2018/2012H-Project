@@ -18,37 +18,26 @@ void FocusManager::handleTypeAccess(QLineEdit* edit){
         emit pass();
     }
     else{
-        QMessageBox msgBox;
-        msgBox.setText("You are about to get distracted, Stay Focus!");
-        msgBox.exec();
+        QMessageBox::information(nullptr, "Calm Down", "You are about to get distracted, Stay Focus!");
     }
 
 }
-
 
 void FocusManager::handleClickAccess(QLineEdit* edit, WebView* tab){
 
     QUrl url = tab->url();
     if (url.toEncoded() == "") return;
 
-    if(tab->urlJustChanged){
-        tab->urlJustChanged = false;
-        edit->setText(url.toDisplayString());
-        return;
-    }
-
     if(isWhitelisted(url)){
         edit->setText(url.toDisplayString());
+        tab->is_new = false;
     }
     else{
-        QMessageBox msgBox;
-        msgBox.setText("You are about to get distracted, Stay Focus !");
-        msgBox.exec();
-        tab->urlJustChanged = true;
-        if(url == QUrl(edit->text()))
-            tab->setUrl(QUrl("https://www.ust.hk"));
-        else
-            tab->setUrl(QUrl(edit->text()));
+        tab->back();
+        if(tab->is_new){
+            tab->deleteLater();
+        }
+        QMessageBox::information(nullptr, "Calm Down", "You are about to get distracted, Stay Focus!");
     }
 
 }

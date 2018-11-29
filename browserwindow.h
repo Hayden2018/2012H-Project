@@ -55,6 +55,7 @@
 #include <QTime>
 #include <QWebEnginePage>
 #include "focusmanager.h"
+#include "EditWindow.h"
 
 QT_BEGIN_NAMESPACE
 class QLineEdit;
@@ -91,6 +92,7 @@ private slots:
     void handleDevToolsRequested(QWebEnginePage *source);
     void handleClickAccess();
     void handleTypeAccess();
+    void handleEditWindow();
 
 private:
     QMenu *createFileMenu(TabWidget *tabWidget);
