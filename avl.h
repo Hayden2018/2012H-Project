@@ -44,4 +44,6 @@ class AVL
     void in_order_action(Callable action);
 };
 
+#include "avl.cpp"
+
 #endif // AVL_H

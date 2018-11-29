@@ -18,37 +18,26 @@ void FocusManager::handleTypeAccess(QLineEdit* edit){
         emit pass();
     }
     else{
-        QMessageBox msgBox;
-        msgBox.setText("You are about to get distracted, Stay Focus!");
-        msgBox.exec();
+        QMessageBox::information(nullptr, "Calm Down", "You are about to get distracted, Stay Focus!");
     }
 
 }
-
 
 void FocusManager::handleClickAccess(QLineEdit* edit, WebView* tab){
 
     QUrl url = tab->url();
     if (url.toEncoded() == "") return;
 
-    if(tab->urlJustChanged){
-        tab->urlJustChanged = false;
-        edit->setText(url.toDisplayString());
-        return;
-    }
-
     if(isWhitelisted(url)){
         edit->setText(url.toDisplayString());
+        tab->is_new = false;
     }
     else{
-        QMessageBox msgBox;
-        msgBox.setText("You are about to get distracted, Stay Focus !");
-        msgBox.exec();
-        tab->urlJustChanged = true;
-        if(url == QUrl(edit->text()))
-            tab->setUrl(QUrl("https://www.ust.hk"));
-        else
-            tab->setUrl(QUrl(edit->text()));
+        tab->back();
+        if(tab->is_new){
+            tab->deleteLater();
+        }
+        QMessageBox::information(nullptr, "Calm Down", "You are about to get distracted, Stay Focus!");
     }
 
 }
@@ -70,10 +59,12 @@ FocusManager::FocusManager() :
     QTextStream in(&file);
 
     while (!in.atEnd())
-        whitelist.insert(QUrl(in.readLine()).host());
+        whitelist.insert(in.readLine());
 
     whitelist.insert(QUrl("https://www.ust.hk").host());
     whitelist.insert(QUrl("https://www.google.com").host());
+
+    whitelist.remove("");
 
     file.close();
 }
@@ -99,7 +90,11 @@ bool FocusManager::isWhitelisted(const QUrl& url) const
 
 void FocusManager::addToWhitelist(const QUrl& url)
 {
-    return whitelist.insert(url.host());
+    if (url.toEncoded() == "")
+        return;
+
+    whitelist.insert(url.host());
+//    whitelist.remove("");
 }
 
 void FocusManager::deleteFromWhitelist(const QUrl& url)
@@ -107,5 +102,9 @@ void FocusManager::deleteFromWhitelist(const QUrl& url)
     return whitelist.remove(url.host());
 }
 
-
+FocusManager& fm()
+{
+    static FocusManager fm;
+    return fm;
+}
 

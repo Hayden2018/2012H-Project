@@ -79,7 +79,7 @@ BrowserWindow::BrowserWindow(Browser *browser, QWebEngineProfile *profile, bool 
     , m_stopReloadAction(nullptr)
     , m_urlLineEdit(nullptr)
     , m_favAction(nullptr)
-    , m_focusManager(new FocusManager())
+    , m_focusManager(&fm())
 {
     setAttribute(Qt::WA_DeleteOnClose, true);
     setFocusPolicy(Qt::ClickFocus);
@@ -121,9 +121,6 @@ BrowserWindow::BrowserWindow(Browser *browser, QWebEngineProfile *profile, bool 
         });
         connect(m_tabWidget, &TabWidget::loadProgress, this, &BrowserWindow::handleWebViewLoadProgress);
         connect(m_tabWidget, &TabWidget::webActionEnabledChanged, this, &BrowserWindow::handleWebActionEnabledChanged);
-//        connect(m_tabWidget, &TabWidget::urlChanged, [this](const QUrl &url) {
-//            m_urlLineEdit->setText(url.toDisplayString());
-//        });   
         connect(m_tabWidget, &TabWidget::favIconChanged, m_favAction, &QAction::setIcon);
         connect(m_tabWidget, &TabWidget::devToolsRequested, this, &BrowserWindow::handleDevToolsRequested);
         connect(m_tabWidget, &TabWidget::urlChanged, this, &BrowserWindow::handleClickAccess);
@@ -131,6 +128,7 @@ BrowserWindow::BrowserWindow(Browser *browser, QWebEngineProfile *profile, bool 
         connect(m_urlLineEdit, &QLineEdit::editingFinished, this, &BrowserWindow::resetUrlEdit);
         connect(m_focusManager, &FocusManager::pass, [this]() {
                     m_tabWidget->setUrl(QUrl::fromUserInput(m_urlLineEdit->text()));
+                    m_tabWidget->currentWebView()->is_new = false;
         });
 
         QAction *focusUrlLineEditAction = new QAction(this);
@@ -157,7 +155,6 @@ QMenu *BrowserWindow::createFileMenu(TabWidget *tabWidget)
     QMenu *fileMenu = new QMenu(tr("&File"));
     fileMenu->addAction(tr("&New Window"), this, &BrowserWindow::handleNewWindowTriggered, QKeySequence::New);
     fileMenu->addAction(tr("New &Incognito Window"), this, &BrowserWindow::handleNewIncognitoWindowTriggered);
-
     QAction *newTabAction = new QAction(tr("New &Tab"), this);
     newTabAction->setShortcuts(QKeySequence::AddTab);
     connect(newTabAction, &QAction::triggered, this, [this]() {
@@ -168,6 +165,10 @@ QMenu *BrowserWindow::createFileMenu(TabWidget *tabWidget)
 
     fileMenu->addAction(tr("&Open File..."), this, &BrowserWindow::handleFileOpenTriggered, QKeySequence::Open);
     fileMenu->addSeparator();
+
+    QAction *editWindow = new QAction(tr("&Focus Settings"), this);
+    connect(editWindow, &QAction::triggered, this, &BrowserWindow::handleEditWindow);
+    fileMenu->addAction(editWindow);
 
     QAction *closeTabAction = new QAction(tr("&Close Tab"), this);
     closeTabAction->setShortcuts(QKeySequence::Close);
@@ -546,4 +547,9 @@ void BrowserWindow::handleClickAccess(){
 
 void BrowserWindow::handleTypeAccess(){
     m_focusManager->handleTypeAccess(m_urlLineEdit);
+}
+
+void BrowserWindow::handleEditWindow(){
+    EditWindow* edit = new EditWindow;
+    edit->show();
 }
