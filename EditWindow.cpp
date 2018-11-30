@@ -5,7 +5,9 @@
 
 EditWindow::EditWindow(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::EditWindow)
+    ui(new Ui::EditWindow),
+    prevSelected("nullptr"),
+    justAdded(false)
 {
     ui->setupUi(this);
 
@@ -33,6 +35,10 @@ EditWindow::EditWindow(QWidget *parent) :
         ui->pushButton->setEnabled(false);
         ui->pushButton_2->setEnabled(false);
     }
+
+    //Update URL
+    connect(ui->tableWidget->model(), &QAbstractItemModel::dataChanged, this, &EditWindow::updateUrl);
+    connect(ui->tableWidget->selectionModel(), &QItemSelectionModel::currentChanged, this, &EditWindow::setPrevSelected);
 }
 
 EditWindow::~EditWindow()
@@ -51,6 +57,7 @@ void EditWindow::add(QString url){
 
 void EditWindow::on_pushButton_clicked()
 {
+
     bool ok = false;
     QString url = QInputDialog::getText(this, "New URL", "Please type in a new url:", QLineEdit::Normal, "", &ok);
     QString t_url = url;
@@ -67,6 +74,7 @@ void EditWindow::on_pushButton_clicked()
         QMessageBox::information(nullptr, "Error", "The website is already in the whitelist!");
     }
     else{
+        justAdded = true;
         this->add(url);
     }
 }
@@ -109,4 +117,40 @@ void EditWindow::on_radioButton_2_clicked()
     ui->tableWidget->setEnabled(false);
     ui->pushButton->setEnabled(false);
     ui->pushButton_2->setEnabled(false);
+}
+
+void EditWindow::updateUrl(const QModelIndex &indexA, const QModelIndex &indexB){
+    if(justAdded){
+        justAdded = false;
+        return;
+    }
+
+    QMessageBox::information(nullptr, "Testing", "Update Url");
+
+    int r = indexA.row();
+    int c = indexA.column();
+
+    //Checking here
+    if(r >= 0 && r < ui->tableWidget->rowCount() && c == 0&& c < ui->tableWidget->columnCount()){
+        QString url = ui->tableWidget->item(r, c)->text();
+        if (!url.contains("https://"))
+            url = "https://" + url;
+        // modify the whitelist
+        fm().addToWhitelist(url);
+        if(prevSelected != "nullptr"){
+            fm().deleteFromWhitelist(prevSelected);
+            prevSelected = "nullptr";
+        }
+    }
+}
+
+void EditWindow::setPrevSelected(const QModelIndex & current, const QModelIndex & previous){
+    int r = current.row();
+    int c = current.column();
+    if(r >= 0 && r < ui->tableWidget->rowCount() && c >= 0 && c < ui->tableWidget->columnCount()){
+        QString url = ui->tableWidget->item(r, c)->text();
+        if (!url.contains("https://"))
+            url = "https://" + url;
+        prevSelected = url;
+    }
 }
