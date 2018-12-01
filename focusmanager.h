@@ -1,7 +1,12 @@
 #ifndef FOCUSMANAGER_H
 #define FOCUSMANAGER_H
+/* File: focusmanager.h */
 
-#endif // FOCUSMANAGER_H
+/* 
+ * This class is the manager responsible for the focus mode
+ * The whitelist is handled and stored by this class,
+ * as well as offline storage of the whitelist
+ */
 
 #include <QMessageBox>
 #include <QLineEdit>
@@ -24,20 +29,22 @@ class FocusManager : public QObject {
 
 public:
 
-    bool onFocus;
+    bool onFocus; // if focus mode has been enabled
 
     FocusManager();
     ~FocusManager();
-    void addToWhitelist(const QUrl& url);
-    void deleteFromWhitelist(const QUrl& url);
-    void handleTypeAccess(QLineEdit* edit);
-    void handleClickAccess(QLineEdit* edit, WebView* tab);
-    void handleNewTab(QLineEdit* edit, WebView* tab);
+    void addToWhitelist(const QUrl& url); // Add an URL to the whitelist
+    void deleteFromWhitelist(const QUrl& url); //Delete an URL from the whitelist
+    void handleTypeAccess(QLineEdit* edit); // Performs checking when the user tries to visit websites via the URL bar
+    void handleClickAccess(QLineEdit* edit, WebView* tab); // Performs checking when the user clicks on a link
+    void handleNewTab(QLineEdit* edit, WebView* tab); // Performs checking when the user tries to open a new tab
 
 signals:
     void pass();
 };
 
 
-FocusManager& fm();
+FocusManager& fm(); // Other users can communicate with THE focus manager through fm(). 
+                    // This is to prevent multiple instantiation of focusmanger i.e. enforcing singleton. 
 
+#endif // FOCUSMANAGER_H
