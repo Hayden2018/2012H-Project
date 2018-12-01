@@ -1,8 +1,15 @@
 #ifndef AVL_H
 #define AVL_H
+/* File: avl.h */
 
+/* 
+ * This is an implementation of the AVL tree
+ * Supports O(logn) time insertion, deletion and searching
+ * Primarily used to store the whitelist, 
+ * can also be used by other program components
+ */
 
-template <typename T>        /* File: avl.h */
+template <typename T>
 class AVL
 {
   private:
@@ -31,17 +38,18 @@ class AVL
 
   public:
     AVL() = default;         // Build an empty AVL tree by default
-    ~AVL() { delete root; }  // Will delete the whole tree recursively!
+    ~AVL() { delete root; }
 
     bool is_empty() const { return root == nullptr; }
-    const T& find_min() const;       // Find the minimum value in an AVL
+    const T& find_min() const;       // Find the minimum value in an AVL, used in deletion
     bool contains(const T& x) const; // Search an item
 
-    void insert(const T& x); // Insert an item in sorted order
+    void insert(const T& x); // Insert an item
     void remove(const T& x); // Remove an item
 
     template <typename Callable>
-    void in_order_action(Callable action);
+    void in_order_action(Callable action); // Perform action to each of the data stored in the tree
+                                           // in in-order
 };
 
 #include "avl.cpp"
