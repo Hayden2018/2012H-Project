@@ -23,9 +23,9 @@ class FocusManager : public QObject {
      AVL<QString> whitelist;
      const QString recordDirectory;
      const QString recordPath;
-     bool isWhitelisted(const QUrl& url) const;
-     FocusManager(const FocusManager&);
-     void operator=(const FocusManager&);
+     bool isWhitelisted(const QUrl& url) const; // Check whether URL is in whitelist
+     FocusManager(const FocusManager&); // Prevent copy of focusmanager
+     void operator=(const FocusManager&); // Prevent copy of focusmanager
 
 public:
 
@@ -39,7 +39,7 @@ public:
     void handleClickAccess(QLineEdit* edit, WebView* tab); // Performs checking when the user clicks on a line
 
 signals:
-    void pass();
+    void pass(); //Signal that a webiste typed in the URL bar is whitelisted
 };
 
 
