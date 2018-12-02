@@ -128,12 +128,14 @@ BrowserWindow::BrowserWindow(Browser *browser, QWebEngineProfile *profile, bool 
         connect(m_tabWidget, &TabWidget::urlChanged, this, &BrowserWindow::handleClickAccess);
         connect(m_urlLineEdit, &QLineEdit::returnPressed, this, &BrowserWindow::handleTypeAccess);
         connect(m_urlLineEdit, &QLineEdit::editingFinished, this, &BrowserWindow::resetUrlEdit);
+       
+        //Link pass signal from pass manager and set is_new to false
         connect(m_focusManager, &FocusManager::pass, [this]() {
                     m_tabWidget->setUrl(QUrl::fromUserInput(m_urlLineEdit->text()));
                     m_tabWidget->currentWebView()->is_new = false;
         });
+        //Link refocus signal to refocus all tabs
         connect(m_editWindow, &EditWindow::refocus, m_tabWidget, &TabWidget::refocusAllTabs);
-
 
         QAction *focusUrlLineEditAction = new QAction(this);
         addAction(focusUrlLineEditAction);
@@ -169,7 +171,8 @@ QMenu *BrowserWindow::createFileMenu(TabWidget *tabWidget)
 
     fileMenu->addAction(tr("&Open File..."), this, &BrowserWindow::handleFileOpenTriggered, QKeySequence::Open);
     fileMenu->addSeparator();
-
+    
+    //Add a new option in file called Focus Settings to allow user to modify focus mode setting
     QAction *editWindow = new QAction(tr("&Focus Settings"), this);
     connect(editWindow, &QAction::triggered, this, &BrowserWindow::handleEditWindow);
     fileMenu->addAction(editWindow);
@@ -550,16 +553,20 @@ void BrowserWindow::handleTypeAccess(){
 }
 
 void BrowserWindow::handleEditWindow(){
+    //Create a new LoginWindow if it is empty
     if(m_login == nullptr){
         m_login = new LoginWindow;
         //For login checking
         connect(m_login, &LoginWindow::loginSuccess, this, &BrowserWindow::showEditWindow);
         connect(m_login, &LoginWindow::loginFail, this, &BrowserWindow::showLoginFailMessage);
     }
+    
+    //Show login window
     m_login->show();
 }
 
 void BrowserWindow::showEditWindow(){
+    //delete m_login if it is not empty and show the edit window
     if(m_login != nullptr){
         m_login->deleteLater();
         m_login = nullptr;
@@ -568,6 +575,7 @@ void BrowserWindow::showEditWindow(){
 }
 
 void BrowserWindow::showLoginFailMessage(){
+    //Delete m_login if it is not empty and output a fail message
     if(m_login != nullptr){
         m_login->deleteLater();
         m_login = nullptr;
