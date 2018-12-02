@@ -16,7 +16,7 @@ public:
     explicit EditWindow(QWidget *parent = nullptr);
     ~EditWindow();
     enum heading{ QURL };       //Just for readability
-    void add(QString url);      //add a new url into the AVL tree and update the QTable screen
+    void add(QString url);      //add a new url into the AVL tree and update the Table Widget screen
 
 signals:
     void refocus();
