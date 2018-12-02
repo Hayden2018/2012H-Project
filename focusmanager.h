@@ -36,8 +36,7 @@ public:
     void addToWhitelist(const QUrl& url); // Add an URL to the whitelist
     void deleteFromWhitelist(const QUrl& url); //Delete an URL from the whitelist
     void handleTypeAccess(QLineEdit* edit); // Performs checking when the user tries to visit websites via the URL bar
-    void handleClickAccess(QLineEdit* edit, WebView* tab); // Performs checking when the user clicks on a link
-    void handleNewTab(QLineEdit* edit, WebView* tab); // Performs checking when the user tries to open a new tab
+    void handleClickAccess(QLineEdit* edit, WebView* tab); // Performs checking when the user clicks on a line
 
 signals:
     void pass();
