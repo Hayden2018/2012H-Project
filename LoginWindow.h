@@ -14,16 +14,16 @@ public:
     explicit LoginWindow(QWidget *parent = nullptr);
     ~LoginWindow();
 signals:
-    void loginSuccess();
-    void loginFail();
+    void loginSuccess();    //Emit signal to browser window if the login information is correct
+    void loginFail();       //Emit signal to browser window if the login information is wrong
 
 private slots:
-    void on_buttonBox_accepted();
+    void on_buttonBox_accepted();   //Check login information if the OK button is clicked
 
 private:
     Ui::LoginWindow *ui;
-    QString USERNAME;
-    QString PASSWORD;
+    QString USERNAME;           //A constant to store correct username
+    QString PASSWORD;           //A constant to store correct password
 };
 
 #endif // LOGINWINDOW_H
