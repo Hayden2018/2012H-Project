@@ -431,8 +431,8 @@ void BrowserWindow::handleWebActionEnabledChanged(QWebEnginePage::WebAction acti
 void BrowserWindow::handleWebViewTitleChanged(const QString &title)
 {
     QString suffix = m_profile->isOffTheRecord()
-        ? tr("Qt Simple Browser (Incognito)")
-        : tr("Qt Simple Browser");
+        ? tr("Focused Browser (Incognito)")
+        : tr("Focused Browser");
 
     if (title.isEmpty())
         setWindowTitle(suffix);
