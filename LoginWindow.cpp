@@ -4,8 +4,8 @@
 LoginWindow::LoginWindow(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::LoginWindow),
-    USERNAME("comp2012h"),          //setting username
-    PASSWORD("comp2012hdesmond")    //setting password
+    USERNAME("comp2012h"),          //setting a default username
+    PASSWORD("comp2012hdesmond")    //setting a default password
 {
     ui->setupUi(this);
 }
