@@ -18,7 +18,7 @@ signals:
     void loginFail();       //Emit signal to browser window if the login information is wrong
 
 private slots:
-    void on_buttonBox_accepted();   //Check login information if the OK button is clicked
+    void on_buttonBox_accepted();   //Check login information if OK button is clicked
 
 private:
     Ui::LoginWindow *ui;
