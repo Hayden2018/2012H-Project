@@ -91,12 +91,12 @@ private slots:
     void handleWebViewTitleChanged(const QString &title);
     void handleWebActionEnabledChanged(QWebEnginePage::WebAction action, bool enabled);
     void handleDevToolsRequested(QWebEnginePage *source);
-    void handleClickAccess();
-    void handleTypeAccess();
-    void handleEditWindow();    //show login window here
+    void handleClickAccess();   //Handle if a link is clicked
+    void handleTypeAccess();    //Handle if the url bar is editing
+    void handleEditWindow();    //Show login window here
 
-    void showEditWindow();      //show editWindow here
-    void showLoginFailMessage();//show login fail message and you can set limit of trying here too
+    void showEditWindow();      //Show editWindow here
+    void showLoginFailMessage();//Show login fail message and you can set limit of trying here too
 
 private:
     QMenu *createFileMenu(TabWidget *tabWidget);
@@ -120,9 +120,9 @@ private:
     QLineEdit *m_urlLineEdit;
     QAction *m_favAction;
     QString m_lastSearch;
-    FocusManager *m_focusManager;
-    EditWindow *m_editWindow;
-    LoginWindow *m_login;
+    FocusManager *m_focusManager;       //Focus manager contains most of the functions of the focus mode
+    EditWindow *m_editWindow;           //Edit window allows you to modify the url list and enable/disable focus mode
+    LoginWindow *m_login;               //Login window to check if you are allowed to go into the edit window
 };
 
 #endif // BROWSERWINDOW_H

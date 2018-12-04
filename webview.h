@@ -63,7 +63,7 @@ class WebView : public QWebEngineView
 public:
     WebView(QWidget *parent = nullptr);
     void setPage(WebPage *page);
-    bool is_new;
+    bool isNew;
     int loadProgress() const;
     bool isWebActionEnabled(QWebEnginePage::WebAction webAction) const;
     QIcon favIcon() const;

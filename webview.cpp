@@ -61,9 +61,9 @@
 #include <QTimer>
 
 WebView::WebView(QWidget *parent)
-    : QWebEngineView(parent)
-    , m_loadProgress(100),
-      is_new(true)
+     : QWebEngineView(parent)
+     , isNew(true)
+     , m_loadProgress(100)
 {
     connect(this, &QWebEngineView::loadStarted, [this]() {
         m_loadProgress = 0;

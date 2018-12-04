@@ -1,10 +1,12 @@
 #include "avl.h"
 #include <algorithm>
 
+/* File: avl.cpp */
+
 template <typename T>
 int AVL<T>::height() const
 {
-    return is_empty() ? -1 : root->height;
+    return is_empty() ? -1 : root->height; // an empty tree has height -1
 }
 
 template <typename T>
@@ -51,14 +53,14 @@ void AVL<T>::balance()
     fix_height();
     int bFactor = bfactor();
 
-    if (bFactor == 2) // case R?
+    if (bFactor == 2) // case R{L/R}
     {
         if (right_subtree().bfactor() < 0) // case RL
             right_subtree().rotate_right();
 
         return rotate_left();
     }
-    else if (bFactor == -2) // case L?
+    else if (bFactor == -2) // case L{L/R}
     {
         if (left_subtree().bfactor() > 0) // case LR
             left_subtree().rotate_left();
@@ -129,8 +131,8 @@ void AVL<T>::remove(const T& x)
         // Found node has 2 children
         if (!left_avl.is_empty() && !right_avl.is_empty())
         {
-            root->value = right_avl.find_min(); // Copy the min value
-            right_avl.remove(root->value); // Remove node with min value
+            root->value = right_avl.find_min(); // Copy the minimum value in the right subtree
+            right_avl.remove(root->value); // Remove node with the minimum value
         }
 
         else  // Found node has 0 or 1 child
